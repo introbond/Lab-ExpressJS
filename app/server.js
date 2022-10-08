@@ -88,7 +88,7 @@ app.post(`/create/sales_history`, async (req, res) => {
             [staff_id, car_brand, car_model],
             (error, results, fields) => {
                 if (error) {
-                    console.log("Insert error", error)
+                    console.log(`Insert error: `, error)
                     return res.status(400).send()
                 } else {
                     return res.status(201).json({ message: `Reccorded success: Staff ID = ${staff_id}, Brand = ${car_brand}, Model = ${car_model}`})
@@ -110,7 +110,7 @@ app.post(`/create/car_model`, async (req, res) => {
             [car_brand, car_model, car_description],
             (error, results, fields) => {
                 if (error) {
-                    console.log("Insert erroror", error)
+                    console.log(`Insert error: `, error)
                     return res.status(400).send()
                 } else {
                     return res.status(201).json({ message: `Reccorded success: Car Brand = ${car_brand}, Car Model = ${car_model}, Car Description = ${car_description}`})
