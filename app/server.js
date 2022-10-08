@@ -5,91 +5,142 @@ app.use(express.json());
 const port = 3000;
 
 const connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '',
-    database : 'mylittleshowroom',
-    port : '3306'  
+    host : `127.0.0.1`,
+    user : `root`,
+    password : ``,
+    database : `mylittleshowroom`,
+    port : `3306`  
 })
-
 connection.connect((error) => {
     if (error) {
-        console.log('Database connection error : ' + error)
+        console.log(`Database connection error : ${error}`)
     } else {
-        console.log('Database connection established')
+        console.log(`Database connection established`)
     }
 })
 
-app.get("/read", async (req, res) => {
+// 3.1
+app.get(`/read/sales_history/:car_brand/:date_start/:date_end`, async (req, res) => {
+    const {car_brand, date_start, date_end} = req.params
     try {
-        connection.query("SELECT * FROM cars", (err, results, fields) => {
-            if (err) {
-                console.log(err);
-                return res.status(400).send();
+        connection.query(`SELECT * FROM sales_history WHERE (car_brand = ?) AND date BETWEEN ? AND ?`,
+        [car_brand, date_start, date_end],
+        (error, results, fields) => {
+            if (error) {
+                console.log(error)
+                return res.status(400).send()
+            } else {
+                return res.status(200).json(results)
             }
-            res.status(200).json(results)
         })
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send();
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send()
     }
 })
 
-app.get("/read/:car_brand/:dateStart/:dateEnd/", async (req, res) => {
-    const car_brand = req.params.car_brand
-    const dateStart = req.params.dateStart
-    const dateEnd = req.params.dateEnd
+//3.2
+app.get(`/read/sales_history/:car_brand/:car_model/:date_start/:date_end`, async (req, res) => {
+    const {car_brand, car_model, date_start, date_end} = req.params
     try {
-        connection.query("SELECT * FROM sales_history WHERE (car_brand = ?) AND date BETWEEN ? AND ?", [car_brand, dateStart, dateEnd], (err, results, fields) => {
-            if (err) {
-                console.log(err);
-                return res.status(400).send();
+        connection.query(`SELECT * FROM sales_history WHERE (car_brand = ?) AND (car_model = ?) AND date BETWEEN ? AND ?`,
+        [car_brand, car_model, date_start, date_end],
+        (error, results, fields) => {
+            if (error) {
+                console.log(error)
+                return res.status(400).send()
+            } else {
+                return res.status(200).json(results)
             }
-            res.status(200).json(results)
         })
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send();
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send()
     }
 })
 
-app.get("/read/:car_brand/:car_model/:dateStart/:dateEnd/", async (req, res) => {
-    const car_brand = req.params.car_brand
-    const car_model = req.params.car_model
-    const dateStart = req.params.dateStart
-    const dateEnd = req.params.dateEnd
+//3.3
+app.get(`/read/sales_history/:car_brand/:car_model/:staff_id/:date_start/:date_end`, async (req, res) => {
+    const {car_brand, car_model, staff_id, date_start, date_end} = req.params
     try {
-        connection.query("SELECT * FROM sales_history WHERE (car_brand = ?) AND (car_model = ?) AND date BETWEEN ? AND ?", [car_brand, car_model, dateStart, dateEnd], (err, results, fields) => {
-            if (err) {
-                console.log(err);
-                return res.status(400).send();
+        connection.query(`SELECT * FROM sales_history WHERE (car_brand = ?) AND (car_model = ?) AND (staff_id = ?) AND date BETWEEN ? AND ?`,
+        [car_brand, car_model, staff_id, date_start, date_end],
+        (error, results, fields) => {
+            if (error) {
+                console.log(error)
+                return res.status(400).send()
+            } else {
+                return res.status(200).json(results)
             }
-            res.status(200).json(results)
         })
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send();
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send()
     }
 })
 
-app.get("/read/:staff_id/:car_brand/:car_model/:dateStart/:dateEnd/", async (req, res) => {
-    const staff_id = req.params.staff_id
-    const car_brand = req.params.car_brand
-    const car_model = req.params.car_model
-    const dateStart = req.params.dateStart
-    const dateEnd = req.params.dateEnd
+//3.4
+app.post(`/create/sales_history`, async (req, res) => {
+    const {staff_id, car_brand, car_model,} = req.body
     try {
-        connection.query("SELECT * FROM sales_history WHERE (staff_id = ?) AND (car_brand = ?) AND (car_model = ?) AND date BETWEEN ? AND ?", [staff_id, car_brand, car_model, dateStart, dateEnd], (err, results, fields) => {
-            if (err) {
-                console.log(err);
-                return res.status(400).send();
+        connection.query(
+            `INSERT INTO sales_history(staff_id, car_brand, car_model) VALUES(?, ?, ?)`,
+            [staff_id, car_brand, car_model],
+            (error, results, fields) => {
+                if (error) {
+                    console.log("Insert error", error)
+                    return res.status(400).send()
+                } else {
+                    return res.status(201).json({ message: `Reccorded success: Staff ID = ${staff_id}, Brand = ${car_brand}, Model = ${car_model}`})
+                }
             }
-            res.status(200).json(results)
-        })
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send();
+        )
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send()
     }
 })
 
-app.listen(port, () => console.log('Server is running on port : ' + port))
+//3.5
+app.post(`/create/car_model`, async (req, res) => {
+    const {car_brand, car_model, car_description} = req.body
+    try {
+        connection.query(
+            `INSERT INTO cars(brand, model, description) VALUES(?, ?, ?)`,
+            [car_brand, car_model, car_description],
+            (error, results, fields) => {
+                if (error) {
+                    console.log("Insert erroror", error)
+                    return res.status(400).send()
+                } else {
+                    return res.status(201).json({ message: `Reccorded success: Car Brand = ${car_brand}, Car Model = ${car_model}, Car Description = ${car_description}`})
+                }
+            }
+        )
+    } catch(error) {
+        console.log(error)
+        return res.status(500).send()
+    }
+})
+
+//3.6
+app.patch(`/update/car_model`, async (req, res) => {
+    const {car_brand, car_model_old, car_model_new} = req.body
+    try {
+        connection.query(`UPDATE cars SET model = ? WHERE (brand = ?) AND (model = ?)`, 
+        [car_model_new, car_brand, car_model_old], 
+        (error, results, fields) => {
+            if (error) {
+                    console.log(error)
+                return res.status(400).send()
+            } else {
+                return res.status(200).json({message: `Updated success: Car Brand = ${car_brand}, Old Model = ${car_model_old}, New Model = ${car_model_new}`})
+            }
+        })
+    } catch(error) {
+        console.log(error);
+        return res.status(500).send()
+    }
+})
+
+app.listen(port, () => console.log(`Server is running on port : ${port}`))
