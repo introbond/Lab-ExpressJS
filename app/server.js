@@ -29,7 +29,7 @@ app.get(`/read/sales_history/:car_brand/:date_start/:date_end`, async (req, res)
                 console.log(error)
                 return res.status(400).send()
             } else {
-                return res.status(200).send(results)
+                return res.status(200).json(results)
             }
         })
     } catch(error) {
@@ -78,7 +78,7 @@ app.get(`/read/sales_history/:car_brand/:car_model/:staff_id/:date_start/:date_e
 
 // Solution for question number 3.4
 app.post(`/create/sales_history`, async (req, res) => {
-    const {staff_id, car_brand, car_model,} = req.body
+    const {staff_id, car_brand, car_model} = req.body
     try {
         connection.query(
             `INSERT INTO sales_history (staff_id, car_brand, car_model) VALUES (
