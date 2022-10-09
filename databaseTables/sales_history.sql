@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2022 at 04:34 PM
+-- Generation Time: Oct 09, 2022 at 04:50 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -48,7 +48,18 @@ INSERT INTO `sales_history` (`id`, `date`, `time`, `staff_id`, `car_brand`, `car
 (5, '2022-06-06', '11:30:00', 1, 'Tesla', 'b'),
 (6, '2022-06-07', '12:00:00', 1, 'Toyota', 'a'),
 (7, '2022-06-08', '09:45:00', 2, 'Toyota', 'a'),
-(8, '2022-06-09', '14:00:00', 1, 'Tesla', 'a');
+(8, '2022-06-09', '14:00:00', 1, 'Tesla', 'a'),
+(9, '2022-10-08', '08:33:44', 1, 'Tesla', 'a'),
+(10, '2022-10-08', '10:28:30', 1, 'Tesla', 'b'),
+(11, '2022-10-08', '10:28:58', 1, 'Tesla', 'b'),
+(12, '2022-10-08', '13:20:15', 1, 'Honda', 'a'),
+(13, '2022-10-08', '14:48:21', 1, 'Tesla', 'b'),
+(14, '2022-10-08', '15:48:54', 1, 'Honda', 'a'),
+(15, '2022-10-08', '16:17:25', 1, 'Honda', 'a'),
+(96, '2022-10-09', '09:16:36', 1, 'Tesla', 'b'),
+(97, '2022-10-09', '09:17:14', 1, 'Tesla', 'b'),
+(98, '2022-10-09', '09:18:03', 2, 'Tesla', 'b'),
+(99, '2022-10-09', '09:19:46', 2, 'Tesla', 'b');
 
 --
 -- Indexes for dumped tables
@@ -68,7 +79,7 @@ ALTER TABLE `sales_history`
 -- AUTO_INCREMENT for table `sales_history`
 --
 ALTER TABLE `sales_history`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

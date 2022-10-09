@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2022 at 04:35 PM
+-- Generation Time: Oct 09, 2022 at 04:49 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -39,9 +39,16 @@ CREATE TABLE `cars` (
 
 INSERT INTO `cars` (`brand`, `model`, `description`) VALUES
 ('Honda', 'a', 'Honda model a'),
+('Honda', 'aaa+.', 'The fastest car in the galaxy.'),
 ('Honda', 'b', 'Honda model b'),
+('Honda', 'y+', 'The fastest car in the galaxy.'),
+('Honda', 'z+', 'The fastest car in the galaxy.'),
+('Madaz', 'a', 'Just a little cute cars.'),
 ('Tesla', 'a', 'Tesla model a'),
+('Tesla', 'a1', 'cute toy car'),
 ('Tesla', 'b', 'Tesla model b'),
+('Tesla', 'd', 'Just a little car'),
+('Tesla', 'x', 'Just a little car 2'),
 ('Toyota', 'a', 'Toyota model a'),
 ('Toyota', 'b', 'Toyota model b');
 
