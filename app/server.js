@@ -101,7 +101,7 @@ app.post(`/create/sales_history`, async (req, res) => {
     }
 })
 
-// Solution for question number 3.5
+// Solution for question number 3.5.1
 app.post(`/create/car_model`, async (req, res) => {
     const {car_brand, car_model, car_description} = req.body
     try {
@@ -122,7 +122,7 @@ app.post(`/create/car_model`, async (req, res) => {
     }
 })
 
-// Solution for question number 3.6
+// Solution for question number 3.5.2
 app.patch(`/update/car_model`, async (req, res) => {
     const {car_brand, car_model_old, car_model_new} = req.body
     try {
