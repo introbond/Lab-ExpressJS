@@ -82,7 +82,7 @@ app.post(`/create/sales_history`, async (req, res) => {
     try {
         connection.query(
             `INSERT INTO sales_history (staff_id, car_brand, car_model) VALUES (
-            (SELECT id FROM staffs WHERE id = '${Number(staff_id)}'), 
+            (SELECT id FROM staff WHERE id = '${Number(staff_id)}'), 
             (SELECT brand FROM cars WHERE brand = '${car_brand}' AND model = '${car_model}'),
             (SELECT model FROM cars WHERE brand = '${car_brand}' AND model = '${car_model}')
             )`,
