@@ -129,7 +129,8 @@ app.patch(`/update/car_model`, async (req, res) => {
         if (car_model_old === car_model_new) {
             return res.status(200).json({message: `Duplicate model detected, please insert the differrent model`})
         } else {
-            connection.query(`SELECT * FROM cars WHERE brand = '${car_brand}' AND model = '${car_model_old}'`, (error, results, fields) => {
+            connection.query(`SELECT * FROM cars WHERE brand = '${car_brand}' AND model = '${car_model_old}'`, 
+            (error, results, fields) => {
                 if (error) {
                     console.log(error)
                     return res.status(400).send()
