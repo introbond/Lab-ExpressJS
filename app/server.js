@@ -126,17 +126,28 @@ app.post(`/create/car_model`, async (req, res) => {
 app.patch(`/update/car_model`, async (req, res) => {
     const {car_brand, car_model_old, car_model_new} = req.body
     try {
-        connection.query(`UPDATE cars SET model = '${car_model_new}'
-        WHERE (SELECT brand FROM cars WHERE brand = '${car_brand}' AND model = '${car_model_old}') 
-        AND (SELECT model FROM cars WHERE brand = '${car_brand}' AND model = '${car_model_old}')`,
-        (error, results, fields) => {
-            if (error) {
+        if (car_model_old === car_model_new) {
+            return res.status(200).json({message: `Duplicate model detected, please insert the differrent model`})
+        } else {
+            connection.query(`SELECT * FROM cars WHERE brand = '${car_brand}' AND model = '${car_model_old}'`, (error, results, fields) => {
+                if (error) {
                     console.log(error)
-                return res.status(400).send()
-            } else {
-                return res.status(200).json({message: `Updated success: Car Brand = ${car_brand}, Old Model = ${car_model_old}, New Model = ${car_model_new}`})
-            }
-        })
+                    return res.status(400).send()
+                } else if (results.length === 0) {
+                    return res.status(400).json({message: `Can't find the car in the database, please insert the existing car.`})
+                } else {
+                    connection.query(`UPDATE cars SET model = '${car_model_new}' WHERE brand = '${car_brand}' AND model = '${car_model_old}'`,
+                    (error, results, fields) => {
+                        if (error) {
+                            console.log(error)
+                            return res.status(400).send()
+                        } else {
+                            return res.status(200).json({message: `Updated success: Car Brand = ${car_brand}, Old Model = ${car_model_old}, New Model = ${car_model_new}`})
+                        }
+                    })
+                }
+              })
+        }    
     } catch(error) {
         console.log(error);
         return res.status(500).send()
